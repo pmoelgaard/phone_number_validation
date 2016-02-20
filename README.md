@@ -129,6 +129,47 @@ If we pass the number ```+14158586273``` as the query argument above, we get the
 }
 
 ```
+
+## Countries
+Returns the list of Supported Countries.
+
+###### Define Query
+
+For this endpoint, we dont pass any primary argument, just the control options, so we define an options object.
+There are currently no options for the ```countries``` endpoint, so we could omit it, however we use it with an empty options object here to stay aligned with the standard for the library.
+
+```
+options = NumverifyLayer::CountriesOptions.new()
+
+```
+
+###### Call Client
+We then place the actual call to the API, passing in the email we wish to check and the options we defined above.
+
+```
+response = @client.countries([options] )
+
+``` 
+    
+###### Response
+```
+{
+  "AF": {
+    "country_name": "Afghanistan",
+    "dialling_code": "+93"
+  },
+  "AL": {
+    "country_name": "Albania",
+    "dialling_code": "+355"
+  },
+  "DZ": {
+    "country_name": "Algeria",
+    "dialling_code": "+213"
+  },
+  ...
+}
+```
+    
 ---
 
 ## Example Application

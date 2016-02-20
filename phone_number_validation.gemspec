@@ -7,13 +7,13 @@ require 'phone_number_validation/version'
 Gem::Specification.new do |spec|
 
   spec.name          = "phone_number_validation"
-  spec.version       = PhoneNumberValidation::VERSION
+  spec.version       = NumverifyLayer::VERSION
   spec.authors       = ["Peter Andreas Moelgaard"]
   spec.email         = ["github@petermolgaard.com"]
 
   spec.description   = "Ruby Library for the numverify API, Global Phone Number Validation & Lookup, https://numverify.com/"
   spec.summary       = "Ruby Library for the numverify API, Global Phone Number Validation & Lookup, https://numverify.com/"
-  spec.homepage      = "phone_number_validation"
+  spec.homepage      = "https://github.com/pmoelgaard/phone_number_validation"
 
   spec.license       = "MIT"
 

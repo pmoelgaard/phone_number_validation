@@ -1,6 +1,6 @@
 [![Travis](https://travis-ci.org/pmoelgaard/phone_number_validation.svg)](Travis)
 
-# phone_number_validation
+# phone_number_validation (incomplete)
 
 Ruby Library for the numverify API, Global Phone Number Validation & Lookup, [https://numverify.com/](https://numverify.com/)   
 
@@ -33,7 +33,7 @@ $ gem install phone_number_validation
 
 ## Configuration
 
-Before using the languagelayer API client you have to setup your account and obtain your API Access Key.  
+Before using the numverify API client you have to setup your account and obtain your API Access Key.  
 You can get it by signing up at [https://numverify.com/product](https://numverify.com/product).
 
 ---
@@ -42,7 +42,7 @@ You can get it by signing up at [https://numverify.com/product](https://numverif
 All endpoints in the public API is available through this library.
 
 - validate
-- countries
+- countries (not yet implemented)
 
 ---
 
@@ -58,21 +58,21 @@ In the examples directory you can find demos and samples of general usage of all
 First we require the module
 
 ```
-require 'languagedetection'
+require 'phone_number_validation'
 
 ```
 
 Second we instantiate the client
 
 ```
-@client = LanguageLayer::Client.new( [access_key] )
+@client = NumverifyLayer::Client.new( [access_key] )
 
 ```
 
 #### Required Parameters
 
 ###### access_key
-Your unique key that you can find on the dashboard of your account under the languagelayer account.
+Your unique key that you can find on the dashboard of your account under the numverify account.
 
 #### Optional Parameters
 
@@ -81,16 +81,16 @@ Boolean value to indicate if the calls to the API should use a secure protocol o
 
 ---
 
-## Detect (simple case)
+## Validate
 
-Takes a query string and detects the language.
+Takes a string representing a phone number and validates and analyses it.
 
 ###### Define Query
 
 First we get a reference to the string that needs to be detected
 
 ```
-query = 'Good afternoon, sir. How are you today?'
+number = '+14158586273'
 
 ```
 
@@ -98,7 +98,7 @@ Second we define an options object.
 All the options are documented here: [https://numverify.com/documentation](https://numverify.com/documentation)
 
 ```
-options = LanguageLayer::DetectOptions.new()
+options = NumverifyLayer::ValidateOptions.new()
 
 ```
 
@@ -106,159 +106,29 @@ options = LanguageLayer::DetectOptions.new()
 We then place the actual call to the API, passing in the email we wish to check and the options we defined above.
 
 ```
-response = @client.detect( [query] [, options] )
+response = @client.validate( [number] [, options] )
 
 ``` 
 
 ###### Response
 
-If we pass the email ```Good afternoon, sir. How are you today?``` as the query argument above, we get the following result:
+If we pass the number ```+14158586273``` as the query argument above, we get the following result:
 
 ```
 {
-		"success": true,
-		"results":[
-			{
-				"language_code": "en",
-				"language_name": "English",
-				"probability": 12.141682269266,
-				"percentage": 100,
-				"reliable_result": true
-			}
-		]
-	}
+  "valid": true,
+  "number": "14158586273",
+  "local_format": "4158586273",
+  "international_format": "+14158586273",
+  "country_prefix": "+1",
+  "country_code": "US",
+  "country_name": "United States of America",
+  "location": "Novato",
+  "carrier": "AT&T Mobility LLC",
+  "line_type": "mobile"
+}
 
 ```
-## Batch Detection
-Takes an array of strings and detects the language with a corresponding list of detections for each string.
-
-###### Define Query
-
-First we get a reference to the string that needs to be detected
-
-```
-query: [
-        	'Good afternoon, how are you today?',
-        	'Guten Tag mein Herr, wie geht es Ihnen?',
-        	'Buenos días señor, cómo está hoy?'
-    	],
-
-```
-
-Second we define an options object.
-In this example we are passing the ```show_query``` option so each of elements in the result will contain the original query.
-All the options are documented here: [https://numverify.com/documentation](https://numverify.com/documentation)
-
-```
-options = LanguageLayer::BatchOptions.new({
-	show_query: 1
-})
-
-```
-
-###### Call Client
-We then place the actual call to the API, passing in the email we wish to check and the options we defined above.
-
-```
-response = @client.batch( [query] [, options] )
-
-```
-	    
-###### Response
-	{
-     	"success": true,
-      	"results": [
-			[
-	          	{
-	          		"query": "Good afternoon, how are you today?",
-	            	"language_code": "en",
-	            	"language_name": "English",
-	            	"probability": 12.141682269266,
-	            	"percentage": 100,
-	            	"reliable_result": true
-	          	}
-	        ],
-		    [
-	        	{
-	        		"query": "Guten Tag mein Herr, wie geht es Ihnen?",
-	            	"language_code": "de",
-	            	"language_name": "German",
-	            	"probability": 23.045066185021,
-	            	"percentage": 100,
-	            	"reliable_result": false
-	          	}
-	        ],
-	        [
-	          	{
-	          		"query": "Buenos días señor, cómo está hoy?",
-	            	"language_code": "es",
-	            	"language_name": "Spanish",
-	            	"probability": 14.560273752505,
-	            	"percentage": 100,
-	            	"reliable_result": false
-	          	},
-	          	{
-	          		"query": "Buenos días señor, cómo está hoy?",
-	            	"language_code": "pt",
-	            	"language_name": "Portuguese",
-	            	"probability": 13.98519485076,
-	            	"percentage": 96.05035652818,
-	            	"reliable_result": false
-	          	},
-	          	{
-	          		"query": "Buenos días señor, cómo está hoy?",
-	            	"language_code": "gl",
-	            	"language_name": "Galician",
-	            	"probability": 13.585199932687,
-	            	"percentage": 93.30319033562,
-	            	"reliable_result": false
-	          	}
-			]
-	 	]
-	 }
-	
-## Supported Languages
-Returns the list of Supported Languages, similar to the list found here:  
-[https://languagelayer.com/languages](https://numverify.com/languages)
-
-###### Define Query
-
-For this endpoint, we dont pass any primary argument, just the control options, so we define an options object.
-There are currently no options for the ```languages``` endpoint, so we could omit it, however we use it with an empty options object here to stay aligned with the standard for the library.
-
-```
-options = LanguageLayer::LanguagesOptions.new()
-
-```
-
-###### Call Client
-We then place the actual call to the API, passing in the email we wish to check and the options we defined above.
-
-```
-response = @client.languages([options] )
-
-``` 
-    
-###### Response
-	{
-  		"success": true,
-  		"languages": [
-    		{
-      			"language_code": "en",
-      			"language_name": "English"
-    		},
-    		{
-      			"language_code": "af",
-      			"language_name": "Afrikaans"
-    		},
-    		{
-      			"language_code": "ar",
-      			"language_name": "Arabic"
-    		},
-    		...
-    	]
-    }
-
 ---
 
 ## Example Application
@@ -297,7 +167,7 @@ Stay up to date by following [@apilayernet](https://twitter.com/apilayernet) on 
 
 ## Legal
 
-All usage of the languagelayer website, API, and services is subject to the [pdflayer Terms & Conditions](https://pdflayer.com/terms) and all annexed legal documents and agreements.
+All usage of the numverify website, API, and services is subject to the [numverify Terms & Conditions](https://numverify.com/terms) and all annexed legal documents and agreements.
 
 ---
 

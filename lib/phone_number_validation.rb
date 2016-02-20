@@ -54,7 +54,7 @@ module NumverifyLayer
         # We ensure that we tap the response so we can use the results
         res.inspect
 
-        if (!res[NumverifyLayer::ValidateResponse::SUCCESS_EXPR])
+        if (res[NumverifyLayer::ValidateResponse::ERROR_EXPR])
           raise NumverifyLayer::ValidateException.new res[NumverifyLayer::ValidateResponse::ERROR_EXPR]
         end
 

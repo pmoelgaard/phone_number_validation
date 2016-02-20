@@ -34,8 +34,6 @@ describe NumverifyLayer do
       # First we check the response
       expect(response).not_to be nil
 
-      puts response
-
     rescue => e
       puts e.inspect
 

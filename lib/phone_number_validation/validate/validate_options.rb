@@ -9,6 +9,7 @@ module NumverifyLayer
     attr_accessor :access_key
 
     attr_accessor :number
+    attr_accessor :country_code
 
     def initialize()
       @query = nil

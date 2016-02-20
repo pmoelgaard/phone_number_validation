@@ -5,7 +5,10 @@ require "phone_number_validation/validate/validate_options"
 require "phone_number_validation/validate/validate_request"
 require "phone_number_validation/validate/validate_response"
 require "phone_number_validation/validate/validate_exception"
-
+require "phone_number_validation/countries/countries_options"
+require "phone_number_validation/countries/countries_request"
+require "phone_number_validation/countries/countries_response"
+require "phone_number_validation/countries/countries_exception"
 
 module NumverifyLayer
 
@@ -56,6 +59,42 @@ module NumverifyLayer
 
         if (res[NumverifyLayer::ValidateResponse::ERROR_EXPR])
           raise NumverifyLayer::ValidateException.new res[NumverifyLayer::ValidateResponse::ERROR_EXPR]
+        end
+
+        # We just return the parsed binary response
+        return res.parsed_response
+
+      rescue => e
+        puts e.inspect
+        return
+
+      end
+    end
+
+    def countries(options = {})
+
+      # Create a shallow copy so we don't manipulate the original reference
+      q = options.dup
+
+      # Populate the Query
+      q.access_key = @access_key
+
+      # We then create the Request
+      req = NumverifyLayer::CountriesRequest.new(q)
+
+      #  We create a Hash of the request so we can send it via HTTP
+      req_dto = req.to_dh
+
+      begin
+
+        # We make the actual request
+        res = self.class.get('/countries', req_dto)
+
+        # We ensure that we tap the response so we can use the results
+        res.inspect
+
+        if (res[NumverifyLayer::CountriesResponse::ERROR_EXPR])
+          raise NumverifyLayer::CountriesException.new res[NumverifyLayer::CountriesResponse::ERROR_EXPR]
         end
 
         # We just return the parsed binary response

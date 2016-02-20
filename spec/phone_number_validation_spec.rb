@@ -41,6 +41,29 @@ describe NumverifyLayer do
 
   end
 
+  it 'countries' do
+
+    begin
+
+      # Declare the Client instance passing in the authentication parameters
+      @client = NumverifyLayer::Client.new(ENV['ACCESS_KEY'])
+
+      # We declare the options
+      options = NumverifyLayer::CountriesOptions.new()
+
+      # We make the call to countries
+      response = @client.countries(options)
+
+      # First we check the response
+      expect(response).not_to be nil
+
+    rescue => e
+      puts e.inspect
+
+    end
+
+  end
+
 end
 
 

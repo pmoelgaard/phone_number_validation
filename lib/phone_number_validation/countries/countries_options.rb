@@ -1,8 +1,8 @@
-require "language_detection/version"
+require "phone_number_validation/version"
 
-module LanguageLayer
+module NumverifyLayer
 
-  class LanguagesOptions
+  class CountriesOptions
 
     include Hashable
 

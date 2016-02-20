@@ -1,8 +1,8 @@
 require "hashable"
 
-module LanguageLayer
+module NumverifyLayer
 
-  class LanguagesRequest
+  class CountriesRequest
 
     include Hashable
 
